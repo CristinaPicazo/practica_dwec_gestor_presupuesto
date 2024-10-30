@@ -20,7 +20,7 @@ function mostrarPresupuesto() {
   return `Tu presupuesto actual es de ${presupuesto} €`;
 }
 
-function CrearGasto(nuevadesc, nuevoValor, nuevaFecha, ...NuevasEtiquetas) {
+function CrearGasto(nuevadesc, nuevoValor, nuevaFecha, ...nuevasEtiquetas) {
   this.valor = nuevoValor >= 0 ? nuevoValor : 0;
   this.descripcion = nuevadesc;
 
@@ -55,9 +55,13 @@ Etiquetas:\n`;
     return listarGasto;
   };
 
-  this.actualizarFecha = function (nuevaFecha) {};
+  this.actualizarFecha = function (nuevaFecha) {
+    if (Date.parse(nuevaFecha)) {
+      this.fecha = Date.parse(nuevaFecha);
+    }
+  };
 
-  this.anyadirEtiquetas = function (nuevasEtiquetas) {
+  this.anyadirEtiquetas = function (...nuevasEtiquetas) {
     nuevasEtiquetas.forEach((eti) => {
       this.etiquetas.push(eti);
       this.etiquetas = borrarDuplicados(this.etiquetas);
