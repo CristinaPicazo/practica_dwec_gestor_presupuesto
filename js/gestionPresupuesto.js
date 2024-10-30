@@ -68,11 +68,15 @@ Etiquetas:\n`;
     });
   };
 
-  this.borrarEtiquetas = function (...borraEtiqueta) {};
+  this.borrarEtiquetas = function (...borraEtiqueta) {
+    borraEtiqueta.forEach((eti) => {
+      let indice = this.etiquetas.indexOf(eti);
+      if (indice != -1) this.etiquetas.splice(indice, 1);
+    });
+  };
 
   this.etiquetas = nuevasEtiquetas.length > 0 ? [] : [...nuevasEtiquetas];
   this.anyadirEtiquetas(...nuevasEtiquetas);
-
 }
 
 function listarGastos() {
@@ -82,6 +86,10 @@ function calcularTotalGastos() {}
 function calcularBalance() {}
 function anyadirGasto() {}
 function borrarGasto() {}
+
+function borrarDuplicados(arr) {
+  return [...new Set(arr)];
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
