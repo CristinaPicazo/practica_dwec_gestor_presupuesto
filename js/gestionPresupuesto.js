@@ -82,10 +82,24 @@ Etiquetas:\n`;
 function listarGastos() {
   return gastos;
 }
-function calcularTotalGastos() {}
-function calcularBalance() {}
-function anyadirGasto() {}
-function borrarGasto() {}
+function calcularTotalGastos() {
+  return gastos.map((gasto) => gasto.valor).reduce((a, b) => a + b);
+}
+function calcularBalance() {
+  return presupuesto - calcularTotalGastos();
+}
+function anyadirGasto(nuevoGasto) {
+  nuevoGasto.id = idGasto++;
+  gastos.push(nuevoGasto);
+}
+function borrarGasto(borraId) {
+  gastos.forEach((gasto) => {
+    if (gasto.id == borraId) {
+      let indice = gastos.indexOf(gasto);
+      gastos.splice(indice, 1);
+    }
+  });
+}
 
 function borrarDuplicados(arr) {
   return [...new Set(arr)];
