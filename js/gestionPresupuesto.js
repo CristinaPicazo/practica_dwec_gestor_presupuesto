@@ -117,7 +117,49 @@ function borrarDuplicados(arr) {
   return [...new Set(arr)];
 }
 
-function filtrarGastos() {}
+function filtrarGastos(objeto) {
+  return gastos.filter(function (contenidoGasto) {
+    let filtrosRequeridos = true;
+
+    if (objeto.fechaDesde) {
+      var fechaD = Date.parse(objeto.fechaDesde);
+      filtrosRequeridos = filtrosRequeridos && contenidoGasto.fecha >= fechaD;
+    }
+    if (objeto.fechaHasta) {
+      var fechaH = Date.parse(objeto.fechaHasta);
+      filtrosRequeridos = filtrosRequeridos && contenidoGasto.fecha <= fechaH;
+    }
+    if (objeto.valorMinimo) {
+      filtrosRequeridos =
+        filtrosRequeridos && contenidoGasto.valor >= objeto.valorMinimo;
+    }
+    if (objeto.valorMaximo) {
+      filtrosRequeridos =
+        filtrosRequeridos && contenidoGasto.valor <= objeto.valorMaximo;
+    }
+    if (objeto.descripcionContiene) {
+      filtrosRequeridos =
+        filtrosRequeridos &&
+        contenidoGasto.descripcion
+          .toLowerCase()
+          .includes(objeto.descripcionContiene.toLowerCase());
+    }
+    if (objeto.etiquetasTiene) {
+      let contieneEtiqueta = false;
+      for (let etiqueta of objeto.etiquetasTiene) {
+          if (contenidoGasto.etiquetas.indexOf(etiqueta) > -1) {
+            contieneEtiqueta = true;
+          }
+        }
+    
+      filtrosRequeridos = filtrosRequeridos && contieneEtiqueta;
+        }
+
+
+
+    return filtrosRequeridos;
+  });
+}
 
 function agruparGastos() {}
 
