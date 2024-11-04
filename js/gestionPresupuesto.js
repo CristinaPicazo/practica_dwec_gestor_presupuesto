@@ -79,11 +79,11 @@ Etiquetas:\n`;
     let fecha = new Date(this.fecha).toISOString();
 
     if (periodo == "anyo") {
-      return fecha.substring(0,4);
+      return fecha.substring(0, 4);
     } else if (periodo == "mes") {
-      return fecha.substring(0,7);
+      return fecha.substring(0, 7);
     } else if (periodo == "dia") {
-      return fecha.substring(0,10);
+      return fecha.substring(0, 10);
     }
   };
 
@@ -147,21 +147,36 @@ function filtrarGastos(objeto) {
     if (objeto.etiquetasTiene) {
       let contieneEtiqueta = false;
       for (let etiqueta of objeto.etiquetasTiene) {
-          if (contenidoGasto.etiquetas.indexOf(etiqueta) > -1) {
-            contieneEtiqueta = true;
-          }
+        if (contenidoGasto.etiquetas.indexOf(etiqueta) > -1) {
+          contieneEtiqueta = true;
         }
-    
+      }
+
       filtrosRequeridos = filtrosRequeridos && contieneEtiqueta;
-        }
-
-
+    }
 
     return filtrosRequeridos;
   });
 }
 
-function agruparGastos() {}
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta) {
+  let gastoAgrupado = filtrarGastos({
+    etiquetasTiene: etiquetas,
+    fechaDesde: fechaDesde,
+    fechaHasta: fechaHasta,
+  });
+
+  return gastoAgrupado.reduce((acumulador, gasto) => {
+    let periodoNuevo = gasto.obtenerPeriodoAgrupacion(periodo);
+
+    if (acumulador[periodoNuevo]) {
+      acumulador[periodoNuevo] = acumulador[periodoNuevo] + gasto.valor;
+    } else {
+      acumulador[periodoNuevo] = gasto.valor;
+    }
+    return acumulador;
+  }, {});
+}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
