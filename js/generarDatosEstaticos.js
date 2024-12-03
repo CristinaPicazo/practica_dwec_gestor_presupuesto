@@ -52,3 +52,37 @@ gasto = new gestionPre.CrearGasto(
   "seguros"
 );
 gestionPre.anyadirGasto(gasto);
+
+let calculoGastoTotal = gestionPre.calcularTotalGastos();
+gestionPreWeb.mostrarDatoEnId("gastos-totales", calculoGastoTotal.toFixed(2));
+
+let balance = gestionPre.calcularBalance();
+gestionPreWeb.mostrarDatoEnId("balance-total", balance.toFixed(2));
+
+let listaGastosCompleto = gestionPre.listarGastos();
+gestionPreWeb.mostrarGastoWeb("listado-gastos-completo", listaGastosCompleto);
+
+let sep21 = new Date("2021-09-01").toLocaleString();
+let gastosFiltrados = gestionPre.filtrarGastos({ fechaDesde: sep21 });
+gestionPreWeb.mostrarGastoWeb("listado-gastos-filtrado-1", gastosFiltrados);
+
+let gastos50 = gestionPre.filtrarGastos({ valorMinimo: 50 });
+gestionPreWeb.mostrarGastoWeb("listado-gastos-filtrado-2", gastos50);
+
+let gastos200 = gestionPre.filtrarGastos({ valorMinimo: 200 });
+gestionPreWeb.mostrarGastoWeb("listado-gastos-filtrado-3", gastos200);
+
+let gastosEtiquetas50 = gestionPre.filtrarGastos({
+  valorMaximo: 50,
+  etiquetasTiene: "comida,transporte",
+});
+gestionPreWeb.mostrarGastoWeb("listado-gastos-filtrado-4", gastosEtiquetas50);
+
+let agrupDia = gestionPre.agruparGastos("dia");
+gestionPreWeb.mostrarGastosAgrupadosWeb("agrupacion-dia", agrupDia, "dia");
+
+let agrupMes = gestionPre.agruparGastos("mes");
+gestionPreWeb.mostrarGastosAgrupadosWeb("agrupacion-mes", agrupMes, "mes");
+
+let agrupAnyo = gestionPre.agruparGastos("anyo");
+gestionPreWeb.mostrarGastosAgrupadosWeb("agrupacion-anyo", agrupAnyo, "anyo");

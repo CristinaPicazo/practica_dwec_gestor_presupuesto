@@ -31,7 +31,6 @@ function mostrarGastoWeb(idElemento, gastos) {
     gasto_etiquetas.setAttribute("class", "gasto-etiquetas");
 
     gasto.etiquetas.forEach((etiquetas) => {
-      console.log("etiquetas", etiquetas);
       let gasto_etiquetas_etiqueta = document.createElement("span");
       gasto_etiquetas_etiqueta.textContent = etiquetas;
       gasto_etiquetas_etiqueta.setAttribute(
