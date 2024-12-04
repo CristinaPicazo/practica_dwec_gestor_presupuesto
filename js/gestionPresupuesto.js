@@ -146,12 +146,11 @@ function filtrarGastos(objeto) {
     }
     if (objeto.etiquetasTiene) {
       let contieneEtiqueta = false;
-      for (let etiqueta of objeto.etiquetasTiene) {
-        if (contenidoGasto.etiquetas.indexOf(etiqueta) > -1) {
+      for (let etiqueta of contenidoGasto.etiquetas) {
+        if (objeto.etiquetasTiene.indexOf(etiqueta) > -1) {
           contieneEtiqueta = true;
         }
       }
-
       filtrosRequeridos = filtrosRequeridos && contieneEtiqueta;
     }
 
