@@ -128,4 +128,23 @@ function nuevoGastoWeb() {
   repintar();
 }
 
+// Función EditarHandle
+let EditarHandle = {
+  handleEvent: function () {
+    let descripcion = prompt("Introduce una descripción:");
+    let valor = prompt("Introduce un valor:");
+    valor = parseFloat(valor);
+    let fecha = prompt("Introduce una fecha (yyyy-mm-dd):");
+    let etiquetas = prompt("Introduce unas etiquetas (separado por comas):");
+    etiquetas = etiquetas.split(",");
+
+    this.gasto.actualizarValor(valor);
+    this.gasto.actualizarDescripcion(descripcion);
+    this.gasto.actualizarFecha(fecha);
+    this.gasto.anyadirEtiquetas(...etiquetas);
+
+    repintar();
+  },
+};
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
