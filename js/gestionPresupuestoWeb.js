@@ -1,3 +1,5 @@
+import * as gestionPre from "./gestionPresupuesto.js";
+
 function mostrarDatoEnId(idElemento, valor) {
   document.getElementById(idElemento).textContent = valor;
 }
@@ -77,5 +79,17 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
     div_agrupacion.appendChild(agrupacion_dato);
   });
+}
+
+// Crear una función repintar para actualizar la página
+function repintar() {
+  mostrarDatoEnId("presupuesto", gestionPre.mostrarPresupuesto());
+  mostrarDatoEnId(
+    "gastos-totales",
+    gestionPre.calcularTotalGastos().toFixed(2)
+  );
+  mostrarDatoEnId("balance-total", gestionPre.calcularBalance().toFixed(2));
+  document.getElementById("listado-gastos-completo").innerHTML = "";
+  mostrarGastoWeb("listado-gastos-completo", gestionPre.listarGastos());
 }
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
