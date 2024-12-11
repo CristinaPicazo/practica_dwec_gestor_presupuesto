@@ -92,4 +92,21 @@ function repintar() {
   document.getElementById("listado-gastos-completo").innerHTML = "";
   mostrarGastoWeb("listado-gastos-completo", gestionPre.listarGastos());
 }
+
+// Función actualizarPresupuestoWeb y botón actualizarpresupuesto
+document
+  .getElementById("actualizarpresupuesto")
+  .addEventListener("click", actualizarPresupuestoWeb);
+
+function actualizarPresupuestoWeb() {
+  let presupuesto = prompt("Introduce un presupuesto:");
+  presupuesto = parseInt(presupuesto);
+  gestionPre.actualizarPresupuesto(presupuesto);
+  repintar();
+}
+
+document
+  .getElementById("anyadirgasto")
+  .addEventListener("click", nuevoGastoWeb);
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
