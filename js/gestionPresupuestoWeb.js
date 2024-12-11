@@ -109,4 +109,23 @@ document
   .getElementById("anyadirgasto")
   .addEventListener("click", nuevoGastoWeb);
 
+// Función nuevoGastoWeb y botón anyadirgasto
+function nuevoGastoWeb() {
+  let descripcion = prompt("Introduce una descripción:");
+  let valor = prompt("Introduce un valor:");
+  valor = parseFloat(valor);
+  let fecha = prompt("Introduce una fecha (yyyy-mm-dd):");
+  let etiquetas = prompt("Introduce unas etiquetas (separado por comas):");
+  etiquetas = etiquetas.split(",");
+
+  let gasto = new gestionPre.CrearGasto(
+    descripcion,
+    valor,
+    fecha,
+    ...etiquetas
+  );
+  gestionPre.anyadirGasto(gasto);
+  repintar();
+}
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
