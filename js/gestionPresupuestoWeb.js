@@ -147,4 +147,12 @@ let EditarHandle = {
   },
 };
 
+// Función BorrarHandle
+let BorrarHandle = {
+  handleEvent: function () {
+    gestionPre.borrarGasto(this.gasto.id);
+    repintar();
+  },
+};
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
