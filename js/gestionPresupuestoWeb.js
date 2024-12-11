@@ -155,4 +155,11 @@ let BorrarHandle = {
   },
 };
 
+// Función BorrarEtiquetasHandle
+let BorrarEtiquetasHandle = {
+  handleEvent: function () {
+    this.gasto.borrarEtiquetas(this.etiqueta);
+    repintar();
+  },
+};
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
