@@ -39,9 +39,31 @@ function mostrarGastoWeb(idElemento, gastos) {
         "class",
         "gasto-etiquetas-etiqueta"
       );
+      let handleEtiqueta = Object.create(BorrarEtiquetasHandle);
+      handleEtiqueta.gasto = gasto;
+      handleEtiqueta.etiqueta = etiquetas;
+      gasto_etiquetas_etiqueta.addEventListener("click", handleEtiqueta);
       gasto_etiquetas.appendChild(gasto_etiquetas_etiqueta);
     });
     estrucuturaGasto.appendChild(gasto_etiquetas);
+
+    let botonEditar = document.createElement("button");
+    botonEditar.setAttribute("class", "gasto-editar");
+    botonEditar.setAttribute("type", "button");
+    let handleEditar = Object.create(EditarHandle);
+    handleEditar.gasto = gasto;
+    botonEditar.addEventListener("click", handleEditar);
+    botonEditar.innerHTML = "Editar";
+    estrucuturaGasto.appendChild(botonEditar);
+    
+    let botonBorrar = document.createElement("button");
+    botonBorrar.setAttribute("type", "button");
+    botonBorrar.setAttribute("class", "gasto-borrar");
+    let handleBorrar = Object.create(BorrarHandle);
+    handleBorrar.gasto = gasto;
+    botonBorrar.addEventListener("click", handleBorrar);
+    botonBorrar.innerHTML = "Borrar";
+    estrucuturaGasto.appendChild(botonBorrar);
   });
 }
 
