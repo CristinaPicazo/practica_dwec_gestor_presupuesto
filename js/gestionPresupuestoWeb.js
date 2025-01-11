@@ -184,4 +184,71 @@ let BorrarEtiquetasHandle = {
     repintar();
   },
 };
+
+// funcion añadir gasto a traves del fomulario template
+function nuevoGastoWebFormulario(evento) {
+  // copia del formulario y lo añade a la pagina
+  let plantillaFormulario = document
+    .getElementById("formulario-template")
+    .content.cloneNode(true);
+  document
+    .getElementById("controlesprincipales")
+    .appendChild(plantillaFormulario);
+
+  // desactivamos el botón para añadir más
+  document.getElementById("anyadirgasto-formulario").disabled = true;
+
+  // seleccionamos el formulario y añadimos el compra
+  let formulario = document.querySelector("form");
+  formulario.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    document.getElementById("anyadirgasto-formulario").disabled = false;
+
+    let descripcion = evento.target.elements.descripcion.value;
+    let valor = parseFloat(evento.target.elements.valor.value);
+    let fecha = evento.target.elements.fecha.value;
+    let etiquetas = evento.target.elements.etiquetas.value.split(" ");
+
+    let nuevoGasto = new gestionPre.CrearGasto(
+      descripcion,
+      valor,
+      fecha,
+      ...etiquetas
+    );
+    gestionPre.anyadirGasto(nuevoGasto);
+    repintar();
+
+    // volvemos a hacer accesible boton para añadir y quitamos el fomulario
+    document.getElementById("anyadirgasto-formulario").disabled = false;
+    document.getElementById("controlesprincipales").removeChild(formulario);
+  });
+
+  // seleccionamos cancelar y añadimos un listener
+  let botonCancelar = formulario.querySelector("button.cancelar");
+
+  let manejadorCancelar = new CancelarHandleFormulario(
+    formulario,
+    document.getElementById("anyadirgasto-formulario")
+  );
+  botonCancelar.addEventListener("click", manejadorCancelar);
+}
+
+function CancelarHandleFormulario(formulario, botonAnyadir) {
+  this.formulario = formulario;
+  this.botonAnyadir = botonAnyadir;
+
+  this.handleEvent = function () {
+    this.formulario.parentNode.removeChild(this.formulario);
+
+    this.botonAnyadir.disabled = false;
+  };
+}
+
+document
+  .getElementById("anyadirgasto-formulario")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    nuevoGastoWebFormulario(event);
+  });
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
