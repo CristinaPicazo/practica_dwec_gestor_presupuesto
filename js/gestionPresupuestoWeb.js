@@ -64,6 +64,15 @@ function mostrarGastoWeb(idElemento, gastos) {
     botonBorrar.addEventListener("click", handleBorrar);
     botonBorrar.innerHTML = "Borrar";
     estrucuturaGasto.appendChild(botonBorrar);
+
+    let botonEditarFormulario = document.createElement("button");
+    botonEditarFormulario.setAttribute("type", "button");
+    botonEditarFormulario.setAttribute("class", "gasto-editar-formulario");
+    let handleEditarFormulario = Object.create(EditarHandleFormulario);
+    handleEditarFormulario.gasto = gasto;
+    botonEditarFormulario.addEventListener("click", handleEditarFormulario);
+    botonEditarFormulario.innerHTML = "Editar (formulario)";
+    estrucuturaGasto.appendChild(botonEditarFormulario);
   });
 }
 
@@ -250,5 +259,64 @@ document
     event.preventDefault();
     nuevoGastoWebFormulario(event);
   });
+
+  let EditarHandleFormulario = {
+    handleEvent: function () {
+      // copia del formulario y lo añade a la pagina en cada botón
+      let plantillaFormulario = document
+        .getElementById("formulario-template")
+        .content.cloneNode(true);
+  
+      let gastoEditar = document.getElementsByClassName("gasto");
+      for (let i = 0; i < gastoEditar.length; i++) {
+        gastoEditar[i].appendChild(plantillaFormulario);
+      }
+  
+      // desactivamos el botón para añadir más
+      let botonAnadir = event.target;
+      botonAnadir.disabled = true;
+      // event.target.disabled = true;
+  
+      let formulario = document.querySelector("form");
+  
+      formulario.descripcion.value = this.gasto.descripcion;
+      formulario.valor.value = this.gasto.valor;
+      formulario.etiquetas.value = this.gasto.etiquetas;
+  
+      let dia = new Date(this.gasto.fecha).getDay();
+      let mes = new Date(this.gasto.fecha).getMonth();
+      let anyo = new Date(this.gasto.fecha).getFullYear();
+      if (dia < 10) {
+        dia = "0" + dia;
+      }
+      if (mes < 10) {
+        mes = "0" + mes;
+      }
+      let fecha = `${anyo}-${mes}-${dia}`;
+      formulario.fecha.value = fecha;
+  
+      // al pinchar submit
+  
+      this.gasto.id;
+      formulario.addEventListener("submit", (evento) => {
+        evento.preventDefault();
+        document.getElementById("anyadirgasto-formulario").disabled = false;
+  
+        this.gasto.actualizarDescripcion(formulario.descripcion.value);
+        this.gasto.actualizarFecha(formulario.fecha.value);
+        this.gasto.actualizarValor(parseFloat(formulario.valor.value));
+        repintar();
+      });
+  
+      // al pinchar cancelar
+      let botonCancelar = formulario.querySelector("button.cancelar");
+  
+      botonCancelar.addEventListener("click", (evento) => {
+        evento.preventDefault();
+        botonAnadir.disabled = false;
+        formulario.parentElement.removeChild(formulario);
+      });
+    },
+  };
 
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
