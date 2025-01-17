@@ -277,7 +277,7 @@ let EditarHandleFormulario = {
     botonAnadir.disabled = true;
     // event.target.disabled = true;
 
-    let formulario = document.querySelector("form");
+    let formulario = document.querySelector(".gasto form");
 
     formulario.descripcion.value = this.gasto.descripcion;
     formulario.valor.value = this.gasto.valor;
