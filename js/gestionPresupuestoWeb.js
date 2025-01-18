@@ -415,4 +415,22 @@ document
     guardarGastosWeb();
   });
 
+function cargarGastosWeb() {
+  // Recupera los datos del localstoreage y los convierte
+  let GestorGastosDWEC = JSON.parse(localStorage.getItem("GestorGastosDWEC"));
+
+  // En caso de que este vacío
+  if (GestorGastosDWEC == null) {
+    let gastosVacio = new Array();
+    gestionPre.cargarGastos(gastosVacio);
+  } else {
+    gestionPre.cargarGastos(GestorGastosDWEC);
+  }
+  repintar();
+}
+document.getElementById("cargar-gastos").addEventListener("click", (evento) => {
+  evento.preventDefault();
+  cargarGastosWeb();
+});
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
