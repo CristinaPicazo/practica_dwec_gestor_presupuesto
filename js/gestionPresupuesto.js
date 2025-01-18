@@ -95,6 +95,9 @@ function listarGastos() {
   return gastos;
 }
 function calcularTotalGastos() {
+  // Si no tenemos gastos
+  if (gastos == 0) return 0;
+
   return gastos.map((gasto) => gasto.valor).reduce((a, b) => a + b);
 }
 function calcularBalance() {

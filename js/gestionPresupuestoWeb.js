@@ -114,6 +114,19 @@ function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
 
 // Crear una función repintar para actualizar la página
 function repintar() {
+  // Si no tiene gastos lo limpiamos todo
+  if (gestionPre.listarGastos() == "") {
+    document.getElementById("listado-gastos-completo").innerHTML = "";
+    document.getElementById("listado-gastos-filtrado-1").innerHTML = "";
+    document.getElementById("listado-gastos-filtrado-2").innerHTML = "";
+    document.getElementById("listado-gastos-filtrado-3").innerHTML = "";
+    document.getElementById("listado-gastos-filtrado-4").innerHTML = "";
+    document.getElementById("agrupacion-dia").innerHTML = "";
+    document.getElementById("agrupacion-mes").innerHTML = "";
+    document.getElementById("agrupacion-anyo").innerHTML = "";
+    // mostrarDatoEnId("presupuesto",gestionPre.)
+    // return;
+  }
   mostrarDatoEnId("presupuesto", gestionPre.mostrarPresupuesto());
   mostrarDatoEnId(
     "gastos-totales",
@@ -383,6 +396,23 @@ document
   .addEventListener("submit", (evento) => {
     evento.preventDefault();
     filtrarGastosWeb(evento);
+  });
+
+function guardarGastosWeb() {
+  // Obtiene todos los gastos
+  let gastos = gestionPre.listarGastos();
+
+  // Los convierte a JSON para poder almacenarlos
+  let GestorGastosDWEC = JSON.stringify(gastos);
+
+  // Los envía al localStorage
+  localStorage.setItem("GestorGastosDWEC", GestorGastosDWEC);
+}
+document
+  .getElementById("guardar-gastos")
+  .addEventListener("click", (evento) => {
+    evento.preventDefault();
+    guardarGastosWeb();
   });
 
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
