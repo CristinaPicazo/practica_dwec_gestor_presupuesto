@@ -65,6 +65,16 @@ function mostrarGastoWeb(idElemento, gastos) {
     botonBorrar.innerHTML = "Borrar";
     estrucuturaGasto.appendChild(botonBorrar);
 
+    // Nuevo boton para borrar de la aplicacion
+    let botonBorrarAPI = document.createElement("button");
+    botonBorrarAPI.setAttribute("type", "button");
+    botonBorrarAPI.setAttribute("class", "gasto-borrar-api");
+    let handleBorrarAPI = Object.create(BorrarHandleAPI);
+    handleBorrarAPI.gasto = gasto;
+    botonBorrarAPI.addEventListener("click", handleBorrarAPI);
+    botonBorrarAPI.innerHTML = "Borrar (API)";
+    estrucuturaGasto.appendChild(botonBorrarAPI);
+
     let botonEditarFormulario = document.createElement("button");
     botonEditarFormulario.setAttribute("type", "button");
     botonEditarFormulario.setAttribute("class", "gasto-editar-formulario");
@@ -351,6 +361,29 @@ let EditarHandleFormulario = {
       botonAnadir.disabled = false;
       formulario.parentElement.removeChild(formulario);
     });
+    // nuevo botón para enviar el gasto a la aplicacion
+    let gastoEnviarAPI = formulario.querySelector(".gasto-enviar-api");
+    gastoEnviarAPI.addEventListener("click", (evento) => {
+      evento.preventDefault();
+ 
+      let descripcion = document.querySelector("#descripcion").value;
+      let valor = parseFloat(document.querySelector("#valor").value);
+      let fecha = document.querySelector("#fecha").value;
+      let etiquetas = document.querySelector("#etiquetas").value.split(" ");
+  
+      let nuevoGasto = new gestionPre.CrearGasto(
+        descripcion,
+        valor,
+        fecha,
+        ...etiquetas
+      );
+
+      fetch(`${aplicacion}/${usuario}/${this.gasto.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevoGasto),
+      }).then(() => cargarGastosApi());
+    });
   },
 };
 
@@ -475,5 +508,14 @@ document
     evento.preventDefault();
     cargarGastosApi();
   });
+
+// Función BorrarHandle desde la API
+let BorrarHandleAPI = {
+  handleEvent: function () {
+    fetch(`${aplicacion}/${usuario}/${this.gasto.id}`, {
+      method: "DELETE",
+    }).then(() => cargarGastosApi())
+  },
+};
 
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
