@@ -455,4 +455,25 @@ document.getElementById("cargar-gastos").addEventListener("click", (evento) => {
   cargarGastosWeb();
 });
 
+// Obtenemos el nombre de usuario para hacer la carga
+const aplicacion =
+  "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest";
+let usuario = document.getElementById("nombre_usuario").value;
+if (usuario == "") usuario = "CristinaPicazo";
+// Cargar gastos desde la aplicacion
+function cargarGastosApi() {
+  fetch(`${aplicacion}/${usuario}`)
+    .then((response) => response.json())
+    .then((gastosAPI) => gestionPre.cargarGastos(gastosAPI))
+    .then(() => repintar())
+    .catch((error) => alert("Se ha producido un error: ", error));
+}
+
+document
+  .getElementById("cargar-gastos-api")
+  .addEventListener("click", (evento) => {
+    evento.preventDefault();
+    cargarGastosApi();
+  });
+
 export { mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb };
