@@ -124,8 +124,6 @@ function repintar() {
     document.getElementById("agrupacion-dia").innerHTML = "";
     document.getElementById("agrupacion-mes").innerHTML = "";
     document.getElementById("agrupacion-anyo").innerHTML = "";
-    // mostrarDatoEnId("presupuesto",gestionPre.)
-    // return;
   }
   mostrarDatoEnId("presupuesto", gestionPre.mostrarPresupuesto());
   mostrarDatoEnId(
@@ -274,27 +272,23 @@ document
   });
 
 let EditarHandleFormulario = {
-  handleEvent: function () {
+  handleEvent: function (evento) {
     // copia del formulario y lo añade a la pagina en cada botón
     let plantillaFormulario = document
       .getElementById("formulario-template")
       .content.cloneNode(true);
 
-    let gastoEditar = document.getElementsByClassName("gasto");
-    for (let i = 0; i < gastoEditar.length; i++) {
-      gastoEditar[i].appendChild(plantillaFormulario);
-    }
+    evento.target.parentElement.appendChild(plantillaFormulario);
 
-    // desactivamos el botón para añadir más
-    let botonAnadir = event.target;
+    let botonAnadir = evento.target;
     botonAnadir.disabled = true;
-    // event.target.disabled = true;
+    evento.target.disabled = true;
 
-    let formulario = document.querySelector(".gasto form");
+    let formulario = evento.target.parentElement;
 
-    formulario.descripcion.value = this.gasto.descripcion;
-    formulario.valor.value = this.gasto.valor;
-    formulario.etiquetas.value = this.gasto.etiquetas;
+    document.querySelector("#descripcion").value = this.gasto.descripcion
+    document.querySelector("#valor").value = this.gasto.valor
+    document.querySelector("#etiquetas").value = this.gasto.etiquetas
 
     let dia = new Date(this.gasto.fecha).getDay();
     let mes = new Date(this.gasto.fecha).getMonth();
@@ -306,7 +300,35 @@ let EditarHandleFormulario = {
       mes = "0" + mes;
     }
     let fecha = `${anyo}-${mes}-${dia}`;
-    formulario.fecha.value = fecha;
+    document.querySelector("#fecha").value = fecha;
+
+    // let gastoEditar = document.getElementsByClassName("gasto");
+    // for (let i = 0; i < gastoEditar.length; i++) {
+    //   gastoEditar[i].appendChild(plantillaFormulario);
+    // }
+
+    // // desactivamos el botón para añadir más
+    // let botonAnadir = event.target;
+    // botonAnadir.disabled = true;
+    // // event.target.disabled = true;
+
+    // let formulario = document.querySelector(".gasto form");
+
+    // formulario.descripcion.value = this.gasto.descripcion;
+    // formulario.valor.value = this.gasto.valor;
+    // formulario.etiquetas.value = this.gasto.etiquetas;
+
+    // let dia = new Date(this.gasto.fecha).getDay();
+    // let mes = new Date(this.gasto.fecha).getMonth();
+    // let anyo = new Date(this.gasto.fecha).getFullYear();
+    // if (dia < 10) {
+    //   dia = "0" + dia;
+    // }
+    // if (mes < 10) {
+    //   mes = "0" + mes;
+    // }
+    // let fecha = `${anyo}-${mes}-${dia}`;
+    // formulario.fecha.value = fecha;
 
     // al pinchar submit
 
