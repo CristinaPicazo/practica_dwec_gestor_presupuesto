@@ -228,12 +228,14 @@ function nuevoGastoWebFormulario(evento) {
   // desactivamos el botón para añadir más
   document.getElementById("anyadirgasto-formulario").disabled = true;
 
-  // seleccionamos el formulario y añadimos el compra
   let formulario = document.querySelector("form");
+
+  // enviar el gasto a localstoreage
   formulario.addEventListener("submit", (evento) => {
     evento.preventDefault();
     document.getElementById("anyadirgasto-formulario").disabled = false;
 
+    // obtenemos los datos nuevos
     let descripcion = evento.target.elements.descripcion.value;
     let valor = parseFloat(evento.target.elements.valor.value);
     let fecha = evento.target.elements.fecha.value;
@@ -261,6 +263,38 @@ function nuevoGastoWebFormulario(evento) {
     document.getElementById("anyadirgasto-formulario")
   );
   botonCancelar.addEventListener("click", manejadorCancelar);
+   // boton Enviar (API) para nuevos gastos en la aplicacion
+   document.querySelector(".gasto-enviar-api").addEventListener("click", (evento) =>{
+    evento.preventDefault();
+
+    // obtenemos los datos
+    let descripcion = document.querySelector("#descripcion").value;
+    let valor = parseFloat(document.querySelector("#valor").value);
+    let fecha = document.querySelector("#fecha").value;
+    let etiquetas = document.querySelector("#etiquetas").value.split(" ");
+  
+    let nuevoGasto = new gestionPre.CrearGasto(
+      descripcion,
+      valor,
+      fecha,
+      ...etiquetas
+    );
+    
+    let gastoId = Math.floor(Math.random() * 1000000);
+    nuevoGasto.gastoId = gastoId;
+
+    // se envian los datos
+    fetch(`${aplicacion}/${usuario}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevoGasto),
+    })
+      .then(() => cargarGastosApi())
+      .catch(err => console.log("Error: ",err))
+    
+    document.getElementById("anyadirgasto-formulario").disabled = false;
+    document.getElementById("controlesprincipales").removeChild(formulario);
+  })
 }
 
 function CancelarHandleFormulario(formulario, botonAnyadir) {
@@ -335,7 +369,7 @@ let EditarHandleFormulario = {
       botonAnadir.disabled = false;
       formulario.parentElement.removeChild(formulario);
     });
-    
+
     // nuevo botón para enviar el gasto a la aplicacion
     let gastoEnviarAPI = formulario.querySelector(".gasto-enviar-api");
     gastoEnviarAPI.addEventListener("click", (evento) => {
