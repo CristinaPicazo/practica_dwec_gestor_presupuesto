@@ -523,7 +523,7 @@ document
 // Función BorrarHandle desde la API
 let BorrarHandleAPI = {
   handleEvent: function () {
-    fetch(`${aplicacion}/${usuario}/${this.gasto.id}`, {
+    fetch(`${aplicacion}/${usuario}/${this.gasto.gastoId}`, {
       method: "DELETE",
     }).then(() => cargarGastosApi())
   },
