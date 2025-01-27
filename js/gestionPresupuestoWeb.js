@@ -387,11 +387,13 @@ let EditarHandleFormulario = {
         ...etiquetas
       );
 
-      fetch(`${aplicacion}/${usuario}/${this.gasto.id}`, {
+      fetch(`${aplicacion}/${usuario}/${this.gasto.gastoId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevoGasto),
-      }).then(() => cargarGastosApi());
+      })
+      .then(() => cargarGastosApi())
+      .catch((err) => console.log("Se ha producido el error: ", err));
     });
   },
 };
