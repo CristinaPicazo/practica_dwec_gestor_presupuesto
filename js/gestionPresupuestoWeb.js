@@ -287,19 +287,19 @@ let EditarHandleFormulario = {
     let plantillaFormulario = document
       .getElementById("formulario-template")
       .content.cloneNode(true);
-
+      
+    // añadimos la copia del furmulario
     evento.target.parentElement.appendChild(plantillaFormulario);
-
-    let botonAnadir = evento.target;
+    
+    // bloqueamos el boton editar (formulario)
+    let botonAnadir = evento.target
     botonAnadir.disabled = true;
-    evento.target.disabled = true;
-
-    let formulario = evento.target.parentElement;
-
+    
+    // obtenemos los valores del gasto para ponerlos en el input del formulario
     document.querySelector("#descripcion").value = this.gasto.descripcion
     document.querySelector("#valor").value = this.gasto.valor
     document.querySelector("#etiquetas").value = this.gasto.etiquetas
-
+    // convertimos la fecha
     let dia = new Date(this.gasto.fecha).getDay();
     let mes = new Date(this.gasto.fecha).getMonth();
     let anyo = new Date(this.gasto.fecha).getFullYear();
@@ -311,45 +311,19 @@ let EditarHandleFormulario = {
     }
     let fecha = `${anyo}-${mes}-${dia}`;
     document.querySelector("#fecha").value = fecha;
+    
+    // obtenemos el formulario para ver sus valores
+    let formulario = document.querySelector(".gasto form")
 
-    // let gastoEditar = document.getElementsByClassName("gasto");
-    // for (let i = 0; i < gastoEditar.length; i++) {
-    //   gastoEditar[i].appendChild(plantillaFormulario);
-    // }
-
-    // // desactivamos el botón para añadir más
-    // let botonAnadir = event.target;
-    // botonAnadir.disabled = true;
-    // // event.target.disabled = true;
-
-    // let formulario = document.querySelector(".gasto form");
-
-    // formulario.descripcion.value = this.gasto.descripcion;
-    // formulario.valor.value = this.gasto.valor;
-    // formulario.etiquetas.value = this.gasto.etiquetas;
-
-    // let dia = new Date(this.gasto.fecha).getDay();
-    // let mes = new Date(this.gasto.fecha).getMonth();
-    // let anyo = new Date(this.gasto.fecha).getFullYear();
-    // if (dia < 10) {
-    //   dia = "0" + dia;
-    // }
-    // if (mes < 10) {
-    //   mes = "0" + mes;
-    // }
-    // let fecha = `${anyo}-${mes}-${dia}`;
-    // formulario.fecha.value = fecha;
-
-    // al pinchar submit
-
-    this.gasto.id;
     formulario.addEventListener("submit", (evento) => {
       evento.preventDefault();
       document.getElementById("anyadirgasto-formulario").disabled = false;
 
+      // obtenemos los valores del formulario por si se han modificado
       this.gasto.actualizarDescripcion(formulario.descripcion.value);
       this.gasto.actualizarFecha(formulario.fecha.value);
       this.gasto.actualizarValor(parseFloat(formulario.valor.value));
+      // pintamos de nuevo la pagina
       repintar();
     });
 
@@ -361,6 +335,7 @@ let EditarHandleFormulario = {
       botonAnadir.disabled = false;
       formulario.parentElement.removeChild(formulario);
     });
+    
     // nuevo botón para enviar el gasto a la aplicacion
     let gastoEnviarAPI = formulario.querySelector(".gasto-enviar-api");
     gastoEnviarAPI.addEventListener("click", (evento) => {
